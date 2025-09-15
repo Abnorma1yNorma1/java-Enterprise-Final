@@ -2,7 +2,11 @@ package by.it_academy.jd2.Mk_jd2_111_25.user_service.core.utility;
 
 import by.it_academy.jd2.Mk_jd2_111_25.user_service.core.dto.User;
 import by.it_academy.jd2.Mk_jd2_111_25.user_service.core.dto.UserCreate;
+import by.it_academy.jd2.Mk_jd2_111_25.user_service.core.dto.UserInfo;
 import by.it_academy.jd2.Mk_jd2_111_25.user_service.storage.entity.UserEntity;
+
+import java.time.Instant;
+import java.util.UUID;
 
 public class UserMapper {
 
@@ -11,6 +15,19 @@ public class UserMapper {
                 .uuid(dto.getUuid())
                 .dtCreate(dto.getDtCreate())
                 .dtUpdate(dto.getDtUpdate())
+                .mail(dto.getMail())
+                .fio(dto.getFio())
+                .role(dto.getRole())
+                .status(dto.getStatus())
+                .build();
+    }
+
+    public static UserEntity toEntity(UserInfo dto) {
+        Instant creationMoment = Instant.now();
+        return UserEntity.builder()
+                .uuid(UUID.randomUUID())
+                .dtCreate(creationMoment)
+                .dtUpdate(creationMoment)
                 .mail(dto.getMail())
                 .fio(dto.getFio())
                 .role(dto.getRole())

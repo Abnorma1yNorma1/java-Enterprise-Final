@@ -1,8 +1,13 @@
 spring:
   datasource:
-    url:
-    driver-class-name:
-    username:
-    password:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   application:
-    name:
+    name: personal finance
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    issuer: ITAcademy
+    expiration: 1800000
