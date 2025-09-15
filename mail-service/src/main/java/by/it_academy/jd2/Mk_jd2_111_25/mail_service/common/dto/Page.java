@@ -1,4 +1,4 @@
-package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto;
+package by.it_academy.jd2.Mk_jd2_111_25.mail_service.common.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
