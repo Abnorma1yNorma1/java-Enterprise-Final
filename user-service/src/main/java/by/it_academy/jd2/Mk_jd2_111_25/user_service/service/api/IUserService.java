@@ -12,6 +12,7 @@ import java.util.UUID;
 public interface IUserService {
     void create(UserInfo userInfo);
     User findByUuid (UUID uuid);
+    UserCreate findByMail (String mail);
     ResponsePage<User> get(int page, int size);
     void update(UUID uuid, Instant dtUpdate, UserCreate userCreate);
 }

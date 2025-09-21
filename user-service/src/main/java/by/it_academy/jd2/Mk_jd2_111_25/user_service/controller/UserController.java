@@ -25,13 +25,12 @@ public class UserController {
     private final IUserService userService;
 
     @PostMapping
-//    @RolesAllowed("ADMIN")
     public ResponseEntity<?> create(@RequestBody @Valid UserInfo userInfo) {
         userService.create(userInfo);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(consumes = "application/json", produces = "application/json")
+    @GetMapping(params = {"page", "size"}, consumes = "application/json", produces = "application/json")
     public ResponseEntity<ResponsePage<User>> get(@RequestParam(defaultValue = "0") @Min(0) int page,
                                                   @RequestParam(defaultValue = "20") @Min(1) int size) {
         ResponsePage<User> responsePageResponse = userService.get(page, size);
@@ -41,6 +40,12 @@ public class UserController {
     @GetMapping("/{uuid}")
     public ResponseEntity<User> getByUuid(@PathVariable UUID uuid) {
         User user = userService.findByUuid(uuid);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<UserCreate> getByMail(@RequestParam String mail) {
+        UserCreate user = userService.findByMail(mail);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

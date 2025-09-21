@@ -4,7 +4,9 @@ import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.config.properties.JwtProp
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableFeignClients
 @EnableConfigurationProperties({
 	JwtProperty.class
 })

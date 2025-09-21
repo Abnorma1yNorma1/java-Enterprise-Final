@@ -6,8 +6,9 @@ spring:
     password: ${POSTGRES_PASSWORD}
   application:
     name: personal finance
-
 app:
   jwt:
     secret:
     issuer: Mk_jd2_111_25
+server:
+  port: 8081

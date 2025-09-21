@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface IAuthRepository extends JpaRepository<RegistrationEntity, UUID> {
     Optional<RegistrationEntity> findByMail(String mail);
+    Optional<RegistrationEntity> findByUuid(UUID uuid);
 }

@@ -5,9 +5,14 @@ spring:
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
   application:
-    name: personal finance
+    name: personal finance cabinet
 app:
   jwt:
     secret: ${JWT_SECRET}
     issuer: ITAcademy
     expiration: 1800000
+  clients:
+    user: 'http://localhost:8081/users'
+    mail:
+server:
+  port: 8080

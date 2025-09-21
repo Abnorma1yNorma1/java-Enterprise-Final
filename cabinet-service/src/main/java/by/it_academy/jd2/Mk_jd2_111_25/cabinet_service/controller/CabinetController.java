@@ -5,7 +5,6 @@ import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.User;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.UserLogin;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.UserRegistration;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service.api.ICabinetService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,7 +45,6 @@ public class CabinetController {
     }
 
     @GetMapping("/me")
-    @RolesAllowed("USER")
     public ResponseEntity<User> me(Authentication authentication){
 
         UUID uuid = (UUID) authentication.getPrincipal();

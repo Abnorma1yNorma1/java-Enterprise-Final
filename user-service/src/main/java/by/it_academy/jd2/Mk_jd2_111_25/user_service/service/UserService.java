@@ -34,8 +34,14 @@ public class UserService implements IUserService {
 
     @Override
     public User findByUuid(UUID uuid) {
-        UserEntity user = userRepository.findById(uuid).orElseThrow(() -> new DataRetrievalFailureException("User could not be found in user database."));
+        UserEntity user = userRepository.findById(uuid).orElseThrow(() -> new DataRetrievalFailureException("User could not be found by id in user database."));
         return UserMapper.toDto(user);
+    }
+
+    @Override
+    public UserCreate findByMail(String mail) {
+        UserEntity entity = userRepository.findByMail(mail).orElseThrow(() -> new DataRetrievalFailureException("User could not be found by mail in user database."));
+        return UserMapper.toUserCreate(entity);
     }
 
     @Override
@@ -50,13 +56,13 @@ public class UserService implements IUserService {
     public void update(UUID uuid, Instant dtUpdate, UserCreate userCreate) {
         UserEntity entity = userRepository.findById(uuid).orElseThrow(() -> new DataRetrievalFailureException("User could not be found in user database."));
         if (!entity.getDtUpdate().equals(dtUpdate)) {
-            throw new IllegalStateException("");
+            throw new IllegalStateException("Your user record is outdated.");
         }
-        entity.setMail(userCreate.getMail());
         entity.setMail(userCreate.getMail());
         entity.setFio(userCreate.getFio());
         entity.setRole(userCreate.getRole());
         entity.setStatus(userCreate.getStatus());
+        entity.setDtUpdate(Instant.now());
         userRepository.save(entity);
     }
 }

@@ -46,5 +46,18 @@ public class UserMapper {
                 .status(entity.getStatus())
                 .build();
     }
+
+    public static UserCreate toUserCreate(UserEntity entity){
+        return UserCreate.builder()
+                .uuid(entity.getUuid())
+                .dtCreate(entity.getDtCreate())
+                .dtUpdate(entity.getDtUpdate())
+                .mail(entity.getMail())
+                .fio(entity.getFio())
+                .role(entity.getRole())
+                .status(entity.getStatus())
+                .password(entity.getPassword())
+                .build();
+    }
 }
 
