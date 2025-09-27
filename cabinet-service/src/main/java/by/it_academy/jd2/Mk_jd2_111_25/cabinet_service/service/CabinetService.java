@@ -7,8 +7,12 @@ import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.enums.UserStatus
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service.api.*;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.storage.entity.RegistrationEntity;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.storage.repository.IAuthRepository;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +24,7 @@ import java.util.UUID;
 public class CabinetService implements ICabinetService {
 
     private final IAuthRepository authRepository;
-    private final IPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
     private final JwtTokenHandler tokenHandler;
     private final IMailConfirmationCodeGenerator mailConfirmationCodeGenerator;
     private final IUserService userService;
@@ -30,21 +34,21 @@ public class CabinetService implements ICabinetService {
     @Transactional
     public void register(UserRegistration userRegistration) {
         String registrationCode = mailConfirmationCodeGenerator.generate(6);
-        String registrationCodeHash = encoder.hash(registrationCode);
+        String registrationCodeHash = encoder.encode(registrationCode);
 
         UserInfo userInfo = UserInfo.builder()
                 .mail(userRegistration.getMail())
                 .fio(userRegistration.getFio())
                 .role(UserRole.USER)
                 .status(UserStatus.WAITING_ACTIVATION)
-                .passwordHash(encoder.hash(userRegistration.getPassword()))
+                .passwordHash(encoder.encode(userRegistration.getPassword()))
                 .build();
 
         userService.create(userInfo);
         UserCreate user = userService.getByMail(userRegistration.getMail());
 
         RegistrationEntity entity = RegistrationEntity.builder()
-                .uuid(user.getUuid())
+                .userUuid(user.getUuid())
                 .codeHash(registrationCodeHash)
                 .build();
 
@@ -61,35 +65,31 @@ public class CabinetService implements ICabinetService {
 
     @Override
     @Transactional
-    public void verify(String code, String mail) {
-
+    public void verify(String code, @Email(message = "Invalid email format.") @NotBlank(message = "Mail must be provided.") String mail) {
         UserCreate user = userService.getByMail(mail);
         UUID uuid = user.getUuid();
-        RegistrationEntity record = authRepository.findByUuid(uuid).orElseThrow(
+        RegistrationEntity record = authRepository.findByUserUuid(uuid).orElseThrow(
                 () -> new DataRetrievalFailureException("Record could not be found in registration database."));
-        if (encoder.match(code, record.getCodeHash())) {
-            UserCreate userCreate = UserCreate.builder()
-                    .uuid(user.getUuid())
-                    .dtCreate(user.getDtCreate())
-                    .dtUpdate(user.getDtUpdate())
+        if (encoder.matches(code, record.getCodeHash())) {
+            UserInfo userInfo = UserInfo.builder()
                     .mail(user.getMail())
                     .fio(user.getFio())
                     .role(user.getRole())
                     .status(UserStatus.ACTIVATED)
-                    .password(user.getPassword())
+                    .passwordHash(encoder.encode(user.getPassword()))
                     .build();
-            userService.update(uuid, Instant.now(), userCreate);
+            userService.update(uuid, Instant.now(), userInfo);
         }
     }
 
     @Override
     public String login(UserLogin userLogin) {
-        RegistrationEntity entity = authRepository.findByMail(userLogin.getMail()).orElseThrow(
-                () -> new DataRetrievalFailureException("Mail could not be found in registration database.")
-        );
         UserCreate user = userService.getByMail(userLogin.getMail());
-        encoder.match(userLogin.getPassword(), user.getPassword());
-        return tokenHandler.generate(entity.getUuid());
+        if (!user.getStatus().equals(UserStatus.ACTIVATED)){
+            throw new DisabledException("User unverified.");
+        }
+        encoder.matches(userLogin.getPassword(), user.getPassword());
+        return tokenHandler.generate(user.getUuid());
     }
 
     @Override

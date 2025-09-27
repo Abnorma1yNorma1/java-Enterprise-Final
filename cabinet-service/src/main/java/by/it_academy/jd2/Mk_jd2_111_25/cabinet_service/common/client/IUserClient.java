@@ -30,5 +30,5 @@ public interface IUserClient {
     @PutMapping("/{uuid}/dt_update/{dt_update}")
     ResponseEntity<Void> update(@PathVariable UUID uuid,
                                 @PathVariable("dt_update") Instant dtUpdate,
-                                @RequestBody UserCreate userCreate);
+                                @RequestBody UserInfo userInfo);
 }

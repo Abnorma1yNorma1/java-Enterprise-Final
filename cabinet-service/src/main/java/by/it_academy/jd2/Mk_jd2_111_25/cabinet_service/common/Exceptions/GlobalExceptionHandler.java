@@ -5,10 +5,12 @@ import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.ErrorResponse;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.StructuredErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -52,6 +54,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse("error", "Provided credentials do not have required permissions."));
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<Object> handleDisabledException(DisabledException ex){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(DataRetrievalFailureException.class)
+    public ResponseEntity<Object> handleDataRetrievalFailureException(DataRetrievalFailureException ex){
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("error", ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

@@ -12,11 +12,12 @@ import java.util.UUID;
 @Entity
 @Data
 @Builder
-@Table(name = "user", schema = "user_service")
+@Table(name = "users", schema = "user_service")
 public class UserEntity {
 
     @Id
     @Column(name = "uuid")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private  UUID uuid;
     @Column(name = "dt_create", nullable = false, updatable = false)
     private  Instant dtCreate;

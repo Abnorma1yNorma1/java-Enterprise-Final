@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 @Builder
 public class UserLogin {
-    @NotBlank
-    @Email
+    @NotBlank(message = "Mail should be provided.")
+    @Email(message = "Appropriate mail format required")
     private String mail;
-    @NotBlank
+    @NotBlank(message = "Password should be provided.")
     private String password;
 }

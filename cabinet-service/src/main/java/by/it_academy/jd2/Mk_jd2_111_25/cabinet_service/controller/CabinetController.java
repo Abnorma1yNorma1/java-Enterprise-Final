@@ -21,7 +21,6 @@ import java.util.UUID;
 public class CabinetController {
 
     private final ICabinetService cabinetService;
-    private final JwtTokenHandler tokenHandler;
 
     @PostMapping("/registration")
     public ResponseEntity<?> register(@RequestBody @Valid UserRegistration userRegistration){

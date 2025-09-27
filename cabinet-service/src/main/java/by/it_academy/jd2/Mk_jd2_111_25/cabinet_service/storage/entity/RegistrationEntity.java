@@ -14,8 +14,7 @@ public class RegistrationEntity {
 
     @Id
     @Column(name = "uuid")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID uuid;
+    private UUID userUuid;
     @Column(name = "code", nullable = false)
     private String codeHash;
 }

@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 @Builder
 public class UserRegistration {
-    @Email
-    @NotBlank
+    @Email(message = "Appropriate mail format required")
+    @NotBlank(message = "Mail should be provided.")
     private String mail;
-    @NotBlank
+    @NotBlank(message = "Fio should be provided.")
     private String fio;
-    @NotBlank
+    @NotBlank(message = "Password should be provided.")
     private String password;
 }

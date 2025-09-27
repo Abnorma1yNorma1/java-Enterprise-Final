@@ -1,7 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS user_service
     AUTHORIZATION postgres;
 
-CREATE TABLE IF NOT EXISTS user_service."user"
+CREATE TABLE IF NOT EXISTS user_service.users
 (
     uuid uuid NOT NULL,
     dt_create timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS user_service."user"
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS user_service."user"
+ALTER TABLE IF EXISTS user_service.users
     OWNER to postgres;

@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfo {
-    @Email
+    @Email(message = "Appropriate mail format required")
     private String mail;
     private String fio;
     private UserRole role;

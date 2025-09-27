@@ -1,9 +1,11 @@
 package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service;
 
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service.api.IMailConfirmationCodeGenerator;
+import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 
+@Component
 public class MailConfirmationCodeGenerator implements IMailConfirmationCodeGenerator {
 
     private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

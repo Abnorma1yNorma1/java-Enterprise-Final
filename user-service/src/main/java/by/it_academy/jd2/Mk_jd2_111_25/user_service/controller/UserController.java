@@ -8,7 +8,9 @@ import by.it_academy.jd2.Mk_jd2_111_25.user_service.core.dto.enums.UserRole;
 import by.it_academy.jd2.Mk_jd2_111_25.user_service.service.api.IUserService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(params = {"page", "size"}, consumes = "application/json", produces = "application/json")
+    @GetMapping(params = {"page", "size"}, /*consumes = "application/json",*/ produces = "application/json")
     public ResponseEntity<ResponsePage<User>> get(@RequestParam(defaultValue = "0") @Min(0) int page,
                                                   @RequestParam(defaultValue = "20") @Min(1) int size) {
         ResponsePage<User> responsePageResponse = userService.get(page, size);
@@ -44,14 +46,16 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<UserCreate> getByMail(@RequestParam String mail) {
+    public ResponseEntity<UserCreate> getByMail(@RequestParam @Email(message = "Invalid email format.") @NotBlank(message = "Mail must be provided.") String mail) {
         UserCreate user = userService.findByMail(mail);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping("{uuid}/dt_update/{dt_update}")
-    public ResponseEntity<?> update(@PathVariable("uuid") UUID uuid, @PathVariable("dt_update") Instant dtUpdate, @RequestBody UserCreate userCreate) {
-        userService.update(uuid, dtUpdate, userCreate);
+    public ResponseEntity<?> update(@PathVariable("uuid") UUID uuid,
+                                    @PathVariable("dt_update") Instant dtUpdate,
+                                    @RequestBody UserInfo userInfo) {
+        userService.update(uuid, dtUpdate, userInfo);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

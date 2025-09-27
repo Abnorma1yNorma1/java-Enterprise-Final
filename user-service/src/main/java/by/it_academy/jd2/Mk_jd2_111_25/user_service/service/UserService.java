@@ -53,15 +53,15 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public void update(UUID uuid, Instant dtUpdate, UserCreate userCreate) {
+    public void update(UUID uuid, Instant dtUpdate, UserInfo userInfo) {
         UserEntity entity = userRepository.findById(uuid).orElseThrow(() -> new DataRetrievalFailureException("User could not be found in user database."));
         if (!entity.getDtUpdate().equals(dtUpdate)) {
             throw new IllegalStateException("Your user record is outdated.");
         }
-        entity.setMail(userCreate.getMail());
-        entity.setFio(userCreate.getFio());
-        entity.setRole(userCreate.getRole());
-        entity.setStatus(userCreate.getStatus());
+        entity.setMail(userInfo.getMail());
+        entity.setFio(userInfo.getFio());
+        entity.setRole(userInfo.getRole());
+        entity.setStatus(userInfo.getStatus());
         entity.setDtUpdate(Instant.now());
         userRepository.save(entity);
     }

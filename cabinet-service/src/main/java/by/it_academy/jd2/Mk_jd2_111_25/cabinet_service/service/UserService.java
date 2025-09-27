@@ -49,8 +49,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void update(UUID uuid, Instant dt_update, UserCreate userCreate){
-        ResponseEntity<Void> updateResponse = userClient.update(uuid, Instant.now(), userCreate);
+    public void update(UUID uuid, Instant dt_update, UserInfo userInfo){
+        ResponseEntity<Void> updateResponse = userClient.update(uuid, Instant.now(), userInfo);
         if (!updateResponse.getStatusCode().is2xxSuccessful()) {
             throw new DataIntegrityViolationException("User update failed with status: " + updateResponse.getStatusCode());
         }
@@ -64,5 +64,10 @@ public class UserService implements IUserService {
             throw new DataRetrievalFailureException("Unable to retrieve user by uuid");
         }
         return user;
+    }
+
+    @Override
+    public boolean adminMailExists(String mail){
+        return userClient.getByMail(mail).getStatusCode().is2xxSuccessful();
     }
 }

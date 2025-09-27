@@ -18,13 +18,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class UserCreate {
-    @NotBlank
+    @NotBlank(message = "Id should be provided.")
     private UUID uuid;
-    @NotBlank
+    @NotBlank(message = "Date of creation should be provided.")
     private Instant dtCreate;
-    @NotBlank
+    @NotBlank(message = "Date of last update should be provided.")
     private Instant dtUpdate;
-    @Email
+    @Email(message = "Appropriate mail format required")
     private String mail;
     private String fio;
     private UserRole role;
