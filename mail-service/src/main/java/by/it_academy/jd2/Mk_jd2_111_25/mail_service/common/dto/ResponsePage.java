@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class Page<T> {
+public class ResponsePage<T> {
     @NotNull
     private Integer number;
     @NotNull

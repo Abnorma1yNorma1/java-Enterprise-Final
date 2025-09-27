@@ -16,17 +16,6 @@ public class RegistrationEntity {
     @Column(name = "uuid")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
-//    @Column(name = "mail", unique = true)
-//    private String mail;
-//    @Column(name = "fio")
-//    private String fio;
-//    @Column(name = "password")
-//    private String passwordHash;
     @Column(name = "code", nullable = false)
     private String codeHash;
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "status")
-//    private UserStatus status;
-//    @Column(name = "dt_create")
-//    private Instant InstantOfRegistration;
 }

@@ -1,6 +1,10 @@
 package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.Exceptions;
 
 
+import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.ErrorResponse;
+import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.StructuredErrorResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -10,59 +14,50 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidation(MethodArgumentNotValidException ex){
-        var errors = ex.getBindingResult()
+        List<StructuredErrorResponse.FieldError> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(err -> Map.of("field", err.getField(),
-                        "message", err.getDefaultMessage()
-                ))
-                .toList();
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of(
-                        "logref", "structured_error",
-                        "errors", errors
-                ));
+                .map(err -> new StructuredErrorResponse.FieldError(err.getField(), err.getDefaultMessage()))
+                .collect(Collectors.toList());
+        StructuredErrorResponse response  = new StructuredErrorResponse();
+        response.setLogRef("structured_error");
+        response.setErrors(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex) {
         return ResponseEntity
                 .badRequest()
-                .body(List.of(Map.of(
-                        "logref", "error",
-                        "message", ex.getMessage()
-                )));
+                .body(new ErrorResponse("error", ex.getMessage()));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("message", "Authorisation required."));
+                .body(new ErrorResponse("error", "Authorisation required."));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDenied(AccessDeniedException ex) {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body(Map.of("message", "Provided credentials do not have required permissions."));
+                .body(new ErrorResponse("error", "Provided credentials do not have required permissions."));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleOther(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(List.of(Map.of(
-                        "logref", "error",
-                        "message", "Server error. Contact the administrator."
-                )));
+                .body(new ErrorResponse("error", "Server error. Contact the administrator."));
     }
 }

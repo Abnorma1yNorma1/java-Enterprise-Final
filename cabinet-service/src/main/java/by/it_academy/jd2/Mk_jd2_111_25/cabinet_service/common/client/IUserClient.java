@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface IUserClient {
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody UserInfo userInfo);
+    ResponseEntity<Void> create(@RequestBody UserInfo userInfo);
 
     @GetMapping(params = "mail")
     ResponseEntity<UserCreate> getByMail(@RequestParam("mail") String mail);

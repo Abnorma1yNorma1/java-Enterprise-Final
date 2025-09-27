@@ -1,11 +1,6 @@
 spring:
-  datasource:
-    url:
-    driver-class-name:
-    username:
-    password:
   application:
-    name:
+    name: personal finance mail
   mail:
     host: smtp.gmail.com
     port: 587
@@ -19,3 +14,5 @@ spring:
             enable: true
           ssl:
             trust: smtp.gmail.com
+server:
+  port: 8082
