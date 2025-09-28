@@ -1,5 +1,6 @@
 package by.it_academy.jd2.Mk_jd2_111_25.user_service.controller.utils;
 
+import by.it_academy.jd2.Mk_jd2_111_25.user_service.common.exceptions.CustomJwtException;
 import by.it_academy.jd2.Mk_jd2_111_25.user_service.config.properties.JwtProperty;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
