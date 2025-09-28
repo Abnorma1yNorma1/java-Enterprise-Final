@@ -32,6 +32,6 @@ public interface IUserClient {
                                 @PathVariable("dt_update") Instant dtUpdate,
                                 @RequestBody UserInfo userInfo);
 
-    @GetMapping("/new")
+    @PostMapping("/new")
     ResponseEntity<UserCreate> serviceCreate(@RequestBody UserInfo userInfo);
 }

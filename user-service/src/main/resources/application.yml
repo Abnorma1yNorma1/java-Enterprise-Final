@@ -8,8 +8,12 @@ spring:
     name: personal finance
 app:
   jwt:
-    user-secret: ${JWT_USER_SECRET}
-    service-secret: ${JWT_SERVICE_SECRET}
+    secrets-map:
+      user-secret: ${JWT_USER_SECRET}
+      service-secret: ${JWT_SERVICE_SECRET}
     issuer: Mk_jd2_111_25
 server:
   port: 8081
+logging:
+  level:
+    root: DEBUG

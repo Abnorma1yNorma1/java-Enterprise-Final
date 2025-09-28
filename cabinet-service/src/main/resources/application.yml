@@ -8,8 +8,9 @@ spring:
     name: personal finance cabinet
 app:
   jwt:
-    user-secret: ${JWT_USER_SECRET}
-    service-secret: ${JWT_SERVICE_SECRET}
+    secrets-map:
+          user-secret: ${JWT_USER_SECRET}
+          service-secret: ${JWT_SERVICE_SECRET}
     issuer: ITAcademy
     expiration: 1800000
   clients:
@@ -17,3 +18,6 @@ app:
     mail: 'http://localhost:8082/mail'
 server:
   port: 8080
+logging:
+  level:
+    root: DEBUG

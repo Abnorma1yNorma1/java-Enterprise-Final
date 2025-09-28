@@ -59,7 +59,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/new")
+    @PostMapping("/new")
     public ResponseEntity<UserCreate> serviceCreate(@RequestBody @Valid UserInfo userInfo) {
         UserCreate user = userService.serviceCreate(userInfo);
         return new ResponseEntity<>(user, HttpStatus.CREATED);

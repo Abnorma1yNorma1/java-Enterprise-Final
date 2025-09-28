@@ -14,5 +14,12 @@ spring:
             enable: true
           ssl:
             trust: smtp.gmail.com
+app:
+  jwt:
+    secrets-map:
+      user-secret: ${JWT_USER_SECRET}
+      service-secret: ${JWT_SERVICE_SECRET}
+    issuer: ITAcademy
+    expiration: 1800000
 server:
   port: 8082

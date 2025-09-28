@@ -5,7 +5,9 @@ import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.config.properties.JwtProp
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import io.jsonwebtoken.security.Keys;
 
+import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -19,23 +21,30 @@ public class JwtTokenHandler {
     private static final String SERVICE_TOKEN_TYPE = "service";
 
     public String generateUserToken(UUID userID){
+        String userSecretHex = property.getSecretsMap().get("user-secret");
+        byte[] userSecretBytes = HexConverter.hexStringToByteArray(userSecretHex);
+        SecretKey secretKey = Keys.hmacShaKeyFor(userSecretBytes);
+
         return Jwts.builder()
-                .setSubject(userID.toString())
-                .setIssuedAt(Date.from(Instant.now()))
-                .setIssuer(property.getIssuer())
-                .setExpiration(Date.from(Instant.now().plusSeconds(property.getExpiration())))
+                .subject(userID.toString())
+                .issuedAt(Date.from(Instant.now()))
+                .issuer(property.getIssuer())
+                .expiration(Date.from(Instant.now().plusSeconds(property.getExpiration())))
                 .claim("token_type", USER_TOKEN_TYPE)
-                .signWith(SignatureAlgorithm.ES256, property.getSecretsMap().get("user-secret"))
+                .signWith(secretKey, Jwts.SIG.HS512)
                 .compact();
     }
 
     public String generateServiceToken(){
+        String serviceSecretHex = property.getSecretsMap().get("service-secret");
+        byte[] serviceSecretBytes = HexConverter.hexStringToByteArray(serviceSecretHex);
+        SecretKey secretKey = Keys.hmacShaKeyFor(serviceSecretBytes);
         return Jwts.builder()
-                .setIssuedAt(Date.from(Instant.now()))
-                .setIssuer(property.getIssuer())
-                .setExpiration(Date.from(Instant.now().plusSeconds(property.getExpiration())))
+                .issuedAt(Date.from(Instant.now()))
+                .issuer(property.getIssuer())
+                .expiration(Date.from(Instant.now().plusSeconds(property.getExpiration())))
                 .claim("token_type", SERVICE_TOKEN_TYPE)
-                .signWith(SignatureAlgorithm.ES256, property.getSecretsMap().get("service-secret"))
+                .signWith(secretKey, Jwts.SIG.HS512)
                 .compact();
     }
 
@@ -49,11 +58,18 @@ public class JwtTokenHandler {
     }
 
     public Claims getClaims(String token, String secretKeyName, String expectedTokenType) {
+        String secretHex = property.getSecretsMap().get(secretKeyName);
+        if (secretHex == null || secretHex.isEmpty()) {
+            throw new IllegalArgumentException("JWT secret key for '" + secretKeyName + "' is not configured.");
+        }
+        byte[] secretBytes = HexConverter.hexStringToByteArray(secretHex);
+        SecretKey secretKey = Keys.hmacShaKeyFor(secretBytes);
         try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(property.getSecretsMap().get(secretKeyName))
-                    .parseClaimsJws(token)
-                    .getBody();
+            Jws<Claims> claimsJws = Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token);
+            Claims claims = claimsJws.getPayload();
             if (!expectedTokenType.equals(claims.get("token_type"))) {
                 throw new JwtException("Incorrect token type");
             }
@@ -73,23 +89,31 @@ public class JwtTokenHandler {
     }
 
     private boolean validate(String token, String secretKeyName, String expectedTokenType) {
+        String secretHex = property.getSecretsMap().get(secretKeyName);
+        byte[] secretBytes = HexConverter.hexStringToByteArray(secretHex);
+        SecretKey secretKey = Keys.hmacShaKeyFor(secretBytes);
         try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(property.getSecretsMap().get(secretKeyName))
-                    .parseClaimsJws(token)
-                    .getBody();
+            Jws<Claims> claimsJws = Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token);
+            Claims claims = claimsJws.getPayload();
             return expectedTokenType.equals(claims.get("token_type"));
-        } catch (SignatureException ex) {
-            //logger.error("Invalid JWT signature - {}", ex.getMessage());
-        } catch (MalformedJwtException ex) {
-            //logger.error("Invalid JWT token - {}", ex.getMessage());
-        } catch (ExpiredJwtException ex) {
-            //logger.error("Expired JWT token - {}", ex.getMessage());
-        } catch (UnsupportedJwtException ex) {
-            //logger.error("Unsupported JWT token - {}", ex.getMessage());
-        } catch (IllegalArgumentException ex) {
-            //logger.error("JWT claims string is empty - {}", ex.getMessage());
+        } catch (JwtException  ex) {
+            //logger.error("JWT validation failure: - {}", ex.getMessage());
         }
         return false;
+    }
+
+    public static class HexConverter {
+        public static byte[] hexStringToByteArray(String s) {
+            int len = s.length();
+            byte[] data = new byte[len / 2];
+            for (int i = 0; i < len; i += 2) {
+                data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                        + Character.digit(s.charAt(i + 1), 16));
+            }
+            return data;
+        }
     }
 }

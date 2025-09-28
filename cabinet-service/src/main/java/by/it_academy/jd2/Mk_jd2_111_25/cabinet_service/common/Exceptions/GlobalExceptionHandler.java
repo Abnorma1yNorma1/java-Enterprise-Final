@@ -4,6 +4,9 @@ package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.Exceptions;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.ErrorResponse;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.StructuredErrorResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.NestedExceptionUtils;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,8 +74,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleOther(Exception ex) {
+        Throwable rootCause = NestedExceptionUtils.getRootCause(ex);
+        String errorMessage = (rootCause != null) ? rootCause.getMessage() : ex.getMessage();
+        ErrorResponse errorResponse = new ErrorResponse("error", "Server error: " + errorMessage);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse("error", "Server error. Contact the administrator."));
+                .body(errorResponse);
     }
 }
