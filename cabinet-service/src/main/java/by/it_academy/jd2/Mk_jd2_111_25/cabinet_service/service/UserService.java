@@ -1,6 +1,6 @@
 package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service;
 
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.client.IUserClient;
+import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.controller.client.IUserClient;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.User;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.UserCreate;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.UserInfo;
@@ -67,7 +67,11 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean adminMailExists(String mail){
-        return userClient.getByMail(mail).getStatusCode().is2xxSuccessful();
+    public UserCreate serviceCreate(UserInfo userInfo){
+        ResponseEntity<UserCreate> response = userClient.serviceCreate(userInfo);
+        if (!response.getStatusCode().is2xxSuccessful()){
+            throw new DataRetrievalFailureException("Request to create user failed");
+        }
+        return response.getBody();
     }
 }

@@ -3,8 +3,7 @@ package by.it_academy.jd2.Mk_jd2_111_25.user_service.storage.entity;
 import by.it_academy.jd2.Mk_jd2_111_25.user_service.core.dto.enums.UserRole;
 import by.it_academy.jd2.Mk_jd2_111_25.user_service.core.dto.enums.UserStatus;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -12,6 +11,8 @@ import java.util.UUID;
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users", schema = "user_service")
 public class UserEntity {
 

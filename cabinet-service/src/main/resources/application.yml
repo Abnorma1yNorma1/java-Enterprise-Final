@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/cabinet_service
     driver-class-name: org.postgresql.Driver
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
@@ -8,15 +8,12 @@ spring:
     name: personal finance cabinet
 app:
   jwt:
-    secret: ${JWT_SECRET}
+    user-secret: ${JWT_USER_SECRET}
+    service-secret: ${JWT_SERVICE_SECRET}
     issuer: ITAcademy
     expiration: 1800000
   clients:
     user: 'http://localhost:8081/users'
     mail: 'http://localhost:8082/mail'
-  admin:
-    mail: ${ADMIN_MAIL}
-    fio: ${ADMIN_FIO}
-    password: ${ADMIN_PASSWORD}
 server:
   port: 8080

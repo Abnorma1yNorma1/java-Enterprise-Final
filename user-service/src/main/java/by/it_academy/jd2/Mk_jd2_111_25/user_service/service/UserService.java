@@ -65,4 +65,12 @@ public class UserService implements IUserService {
         entity.setDtUpdate(Instant.now());
         userRepository.save(entity);
     }
+
+    @Override
+    @Transactional
+    public UserCreate serviceCreate(UserInfo userInfo){
+        UserEntity userEntity = UserMapper.toEntity(userInfo);
+        UserEntity returned =  userRepository.save(userEntity);
+        return UserMapper.toUserCreate(returned);
+    }
 }

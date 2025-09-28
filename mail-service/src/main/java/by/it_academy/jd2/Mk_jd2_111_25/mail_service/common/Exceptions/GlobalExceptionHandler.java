@@ -1,10 +1,9 @@
-package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.Exceptions;
+package by.it_academy.jd2.Mk_jd2_111_25.mail_service.common.Exceptions;
 
 
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.ErrorResponse;
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.StructuredErrorResponse;
+import by.it_academy.jd2.Mk_jd2_111_25.mail_service.common.dto.ErrorResponse;
+import by.it_academy.jd2.Mk_jd2_111_25.mail_service.common.dto.StructuredErrorResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -59,13 +58,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleDisabledException(DisabledException ex){
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse("error", ex.getMessage()));
-    }
-
-    @ExceptionHandler(DataRetrievalFailureException.class)
-    public ResponseEntity<Object> handleDataRetrievalFailureException(DataRetrievalFailureException ex){
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("error", ex.getMessage()));
     }
 

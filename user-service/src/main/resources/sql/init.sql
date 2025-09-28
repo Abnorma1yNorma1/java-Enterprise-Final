@@ -15,6 +15,19 @@ CREATE TABLE IF NOT EXISTS user_service.users
     CONSTRAINT user_mail_key UNIQUE (mail)
 )
 
+INSERT INTO user_service.users (
+	uuid, dt_create, dt_update, mail, fio, role, status, password)
+VALUES (
+    '3fb7961d-d357-4f45-8e1c-9e50063b1b2f',
+    now(),
+    now(),
+    'evgenyprihodzko@gmail.com',
+    'Jeka',
+    'ADMIN',
+    'ACTIVATED',
+    '$2a$12$YlETwAx3VuZC5S7zKgRTXuNjCbSveCSxNcENRPa6PyalZrdybikou'
+);
+
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS user_service.users

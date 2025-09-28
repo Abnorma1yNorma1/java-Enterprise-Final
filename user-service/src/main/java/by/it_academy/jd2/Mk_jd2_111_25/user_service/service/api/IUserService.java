@@ -14,4 +14,5 @@ public interface IUserService {
     UserCreate findByMail (String mail);
     ResponsePage<User> get(int page, int size);
     void update(UUID uuid, Instant dtUpdate, UserInfo userInfo);
+    UserCreate serviceCreate(UserInfo userInfo);
 }

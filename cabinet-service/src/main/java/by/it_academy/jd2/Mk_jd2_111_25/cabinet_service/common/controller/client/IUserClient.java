@@ -1,4 +1,4 @@
-package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.client;
+package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.controller.client;
 
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.ResponsePage;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.User;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.UUID;
 
-@FeignClient(name = "user-service", url = "${app.clients.user}")
+@FeignClient(name = "user-service", url = "${app.clients.user}", configuration = FeignConfig.class)
 public interface IUserClient {
 
     @PostMapping
@@ -31,4 +31,7 @@ public interface IUserClient {
     ResponseEntity<Void> update(@PathVariable UUID uuid,
                                 @PathVariable("dt_update") Instant dtUpdate,
                                 @RequestBody UserInfo userInfo);
+
+    @GetMapping("/new")
+    ResponseEntity<UserCreate> serviceCreate(@RequestBody UserInfo userInfo);
 }

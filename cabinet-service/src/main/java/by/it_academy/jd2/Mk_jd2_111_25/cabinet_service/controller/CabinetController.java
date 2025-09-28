@@ -1,6 +1,5 @@
 package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.controller;
 
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.controller.utils.JwtTokenHandler;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.User;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.UserLogin;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.UserRegistration;

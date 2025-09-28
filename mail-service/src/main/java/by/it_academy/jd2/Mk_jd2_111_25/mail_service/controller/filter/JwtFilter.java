@@ -1,8 +1,6 @@
-package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.controller.filter;
+package by.it_academy.jd2.Mk_jd2_111_25.mail_service.controller.filter;
 
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.controller.utils.JwtTokenHandler;
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.enums.UserRole;
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service.api.IUserService;
+import by.it_academy.jd2.Mk_jd2_111_25.mail_service.controller.utils.JwtTokenHandler;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,17 +10,16 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 
@@ -31,7 +28,6 @@ import static org.apache.logging.log4j.util.Strings.isEmpty;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtTokenHandler jwtHandler;
-    private final IUserService userService;
     private final HandlerExceptionResolver resolver;
 
     @Override
@@ -48,9 +44,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String token = header.split(" ")[1].trim();
 
         try {
-            if (jwtHandler.validateUserToken(token)) {
-                authenticateUser(token);
-            } else if (jwtHandler.validateServiceToken(token)) {
+            if  (jwtHandler.validateServiceToken(token)) {
                 authenticateService();
             } else {
                 throw new BadCredentialsException("Invalid token signature or type.");
@@ -64,17 +58,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
     }
 
-    private void authenticateUser(String token) {
-        UUID userID = jwtHandler.getUserId(token);
-        if (userID != null) {
-            UserRole role = userService.getRole(userID);
-            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
-            Authentication auth = new UsernamePasswordAuthenticationToken(userID, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-        } else {
-            SecurityContextHolder.clearContext();
-        }
-    }
 
     private void authenticateService() {
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_SERVICE"));

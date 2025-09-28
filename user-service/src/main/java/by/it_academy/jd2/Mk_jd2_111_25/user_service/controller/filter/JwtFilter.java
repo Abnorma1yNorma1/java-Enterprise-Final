@@ -1,8 +1,8 @@
-package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.controller.filter;
+package by.it_academy.jd2.Mk_jd2_111_25.user_service.controller.filter;
 
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.controller.utils.JwtTokenHandler;
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.enums.UserRole;
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service.api.IUserService;
+import by.it_academy.jd2.Mk_jd2_111_25.user_service.controller.utils.JwtTokenHandler;
+import by.it_academy.jd2.Mk_jd2_111_25.user_service.core.dto.enums.UserRole;
+import by.it_academy.jd2.Mk_jd2_111_25.user_service.service.api.IUserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private void authenticateUser(String token) {
         UUID userID = jwtHandler.getUserId(token);
         if (userID != null) {
-            UserRole role = userService.getRole(userID);
+            UserRole role = userService.findByUuid(userID).getRole();
             List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
             Authentication auth = new UsernamePasswordAuthenticationToken(userID, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(auth);

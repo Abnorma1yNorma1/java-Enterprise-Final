@@ -1,7 +1,7 @@
-package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.controller.utils;
+package by.it_academy.jd2.Mk_jd2_111_25.mail_service.controller.utils;
 
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.Exceptions.CustomJwtException;
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.config.properties.JwtProperty;
+import by.it_academy.jd2.Mk_jd2_111_25.mail_service.common.Exceptions.CustomJwtException;
+import by.it_academy.jd2.Mk_jd2_111_25.mail_service.config.properties.JwtProperty;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

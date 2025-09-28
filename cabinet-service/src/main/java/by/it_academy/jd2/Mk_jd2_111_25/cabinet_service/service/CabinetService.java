@@ -44,8 +44,7 @@ public class CabinetService implements ICabinetService {
                 .passwordHash(encoder.encode(userRegistration.getPassword()))
                 .build();
 
-        userService.create(userInfo);
-        UserCreate user = userService.getByMail(userRegistration.getMail());
+        UserCreate user = userService.serviceCreate(userInfo);
 
         RegistrationEntity entity = RegistrationEntity.builder()
                 .userUuid(user.getUuid())
@@ -85,11 +84,11 @@ public class CabinetService implements ICabinetService {
     @Override
     public String login(UserLogin userLogin) {
         UserCreate user = userService.getByMail(userLogin.getMail());
-        if (!user.getStatus().equals(UserStatus.ACTIVATED)){
+        if (!user.getStatus().equals(UserStatus.ACTIVATED)) {
             throw new DisabledException("User unverified.");
         }
         encoder.matches(userLogin.getPassword(), user.getPassword());
-        return tokenHandler.generate(user.getUuid());
+        return tokenHandler.generateUserToken(user.getUuid());
     }
 
     @Override

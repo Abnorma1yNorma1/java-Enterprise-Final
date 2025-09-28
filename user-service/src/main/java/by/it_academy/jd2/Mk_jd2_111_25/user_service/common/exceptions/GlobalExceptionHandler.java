@@ -1,8 +1,8 @@
-package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.Exceptions;
+package by.it_academy.jd2.Mk_jd2_111_25.user_service.common.exceptions;
 
 
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.ErrorResponse;
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto.StructuredErrorResponse;
+import by.it_academy.jd2.Mk_jd2_111_25.user_service.common.dto.ErrorResponse;
+import by.it_academy.jd2.Mk_jd2_111_25.user_service.common.dto.StructuredErrorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.HttpStatus;

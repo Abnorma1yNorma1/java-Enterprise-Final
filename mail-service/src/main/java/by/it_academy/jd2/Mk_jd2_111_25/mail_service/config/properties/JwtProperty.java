@@ -1,4 +1,4 @@
-package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.config.properties;
+package by.it_academy.jd2.Mk_jd2_111_25.mail_service.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service;
 
-import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.client.IMailClient;
+import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.controller.client.IMailClient;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.MailRequest;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service.api.IMailService;
 import lombok.RequiredArgsConstructor;

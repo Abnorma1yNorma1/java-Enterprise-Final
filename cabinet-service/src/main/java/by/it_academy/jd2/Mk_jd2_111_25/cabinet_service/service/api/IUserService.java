@@ -14,5 +14,5 @@ public interface IUserService {
     UserCreate getByMail(String mail);
     void update(UUID uuid, Instant dt_update, UserInfo userInfo);
     User getByUuid (UUID uuid);
-    boolean adminMailExists(String mail);
+    UserCreate serviceCreate(UserInfo userInfo);
 }

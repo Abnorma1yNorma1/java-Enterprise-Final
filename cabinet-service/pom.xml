@@ -108,6 +108,12 @@
             <scope>compile</scope>
         </dependency>
 
+		<dependency>
+			<groupId>by.it_academy.jd2.Mk_jd2_111_25</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
     </dependencies>
 
 	<build>
