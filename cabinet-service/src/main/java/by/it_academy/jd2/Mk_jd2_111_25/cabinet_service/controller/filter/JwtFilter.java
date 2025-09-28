@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,12 +29,21 @@ import java.util.UUID;
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 
 @Component
-@RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtTokenHandler jwtHandler;
     private final IUserService userService;
     private final HandlerExceptionResolver resolver;
+
+    public JwtFilter(
+            JwtTokenHandler jwtHandler,
+            IUserService userService,
+            @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver
+    ){
+        this.jwtHandler = jwtHandler;
+        this.userService = userService;
+        this.resolver = resolver;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
