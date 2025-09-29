@@ -3,6 +3,7 @@ package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.common.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -25,4 +26,17 @@ public class ResponsePage<T> {
     private Boolean last;
     @NotNull
     private List<T> content;
+
+    public static <T> ResponsePage<T> fromSpringPage(Page<T> page){
+        return new ResponsePage<>(
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalPages(),
+                page.getTotalElements(),
+                page.isFirst(),
+                page.getNumberOfElements(),
+                page.isLast(),
+                page.getContent()
+        );
+    }
 }
