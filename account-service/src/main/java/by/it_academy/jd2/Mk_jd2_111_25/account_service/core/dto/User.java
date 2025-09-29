@@ -1,7 +1,7 @@
-package by.it_academy.jd2.Mk_jd2_111_25.audit_service.core.dto;
+package by.it_academy.jd2.Mk_jd2_111_25.account_service.core.dto;
 
-import by.it_academy.jd2.Mk_jd2_111_25.audit_service.core.dto.enums.UserRole;
-import by.it_academy.jd2.Mk_jd2_111_25.audit_service.core.dto.enums.UserStatus;
+import by.it_academy.jd2.Mk_jd2_111_25.account_service.core.dto.enums.UserRole;
+import by.it_academy.jd2.Mk_jd2_111_25.account_service.core.dto.enums.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
