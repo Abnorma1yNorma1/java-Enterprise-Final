@@ -17,7 +17,7 @@ public class Audit {
     private final UUID uuid;
     @NotNull
     private final Instant dt_create;
-    private UserAudit userAudit;
+    private User user;
     private String text;
     private EssenceType type;
     private UUID id;
