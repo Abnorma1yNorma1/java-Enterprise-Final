@@ -25,7 +25,6 @@ public class UserMapper {
     public static UserEntity toEntity(UserInfo dto) {
         Instant creationMoment = Instant.now();
         return UserEntity.builder()
-//                .uuid(UUID.randomUUID())
                 .dtCreate(creationMoment)
                 .dtUpdate(creationMoment)
                 .mail(dto.getMail())

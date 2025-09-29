@@ -2,6 +2,7 @@ package by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service;
 
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.controller.utils.JwtTokenHandler;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.*;
+import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.UserInfo;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.enums.UserRole;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.core.dto.enums.UserStatus;
 import by.it_academy.jd2.Mk_jd2_111_25.cabinet_service.service.api.*;
@@ -41,7 +42,7 @@ public class CabinetService implements ICabinetService {
                 .fio(userRegistration.getFio())
                 .role(UserRole.USER)
                 .status(UserStatus.WAITING_ACTIVATION)
-                .passwordHash(encoder.encode(userRegistration.getPassword()))
+                .password(encoder.encode(userRegistration.getPassword()))
                 .build();
 
         UserCreate user = userService.serviceCreate(userInfo);
@@ -75,7 +76,7 @@ public class CabinetService implements ICabinetService {
                     .fio(user.getFio())
                     .role(user.getRole())
                     .status(UserStatus.ACTIVATED)
-                    .passwordHash(encoder.encode(user.getPassword()))
+                    .password(user.getPassword())
                     .build();
             userService.update(uuid, Instant.now(), userInfo);
         }
