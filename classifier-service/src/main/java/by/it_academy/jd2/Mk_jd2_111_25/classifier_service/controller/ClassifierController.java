@@ -25,7 +25,7 @@ public class ClassifierController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping
+    @GetMapping("/currency")
     public ResponseEntity<ResponsePage<Currency>> getCurrency(@RequestParam(defaultValue = "0") @Min(0) int page,
                                                       @RequestParam(defaultValue = "20") @Min(1) int size){
         ResponsePage<Currency> responsePageResponse = currencyService.getCurrency(page, size);
