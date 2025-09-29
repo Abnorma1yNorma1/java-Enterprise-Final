@@ -15,9 +15,9 @@ public class Currency {
     @NotNull
     private final UUID uuid;
     @NotNull
-    private final Instant dt_create;
+    private final Instant dtCreate;
     @NotNull
-    private final Instant dt_update;
+    private final Instant dtUpdate;
     private String title;
     private String description;
 }
