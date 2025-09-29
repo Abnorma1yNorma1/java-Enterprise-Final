@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -44,10 +43,6 @@ public class SecurityConfig {
                                 (request, response, accessDeniedException) -> writeError(response, HttpStatus.FORBIDDEN, "Access denied")
                         ))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/classifier/currency").permitAll() //TODO url change
-                        .requestMatchers(HttpMethod.GET, "/classifier/operation/category").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/classifier/currency").hasAnyRole("ADMIN", "MANAGER")
-                        .requestMatchers(HttpMethod.POST, "/classifier/operation/category").hasAnyRole("ADMIN", "MANAGER")
                         .anyRequest().authenticated())
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 

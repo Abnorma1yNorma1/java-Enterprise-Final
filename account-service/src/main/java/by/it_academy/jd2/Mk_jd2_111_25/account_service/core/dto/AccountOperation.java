@@ -1,4 +1,4 @@
-package by.it_academy.jd2.Mk_jd2_111_25.account_operation_service.core.dto;
+package by.it_academy.jd2.Mk_jd2_111_25.account_service.core.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class Operation {
+public class AccountOperation {
     @NotNull
     private final UUID uuid;
     @NotNull

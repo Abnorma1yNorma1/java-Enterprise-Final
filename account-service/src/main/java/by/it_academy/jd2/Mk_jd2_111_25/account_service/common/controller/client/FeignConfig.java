@@ -1,6 +1,5 @@
 package by.it_academy.jd2.Mk_jd2_111_25.account_service.common.controller.client;
 
-import by.it_academy.jd2.Mk_jd2_111_25.account_service.common.controller.client.FeignClientInterceptor;
 import by.it_academy.jd2.Mk_jd2_111_25.account_service.controller.utils.JwtTokenHandler;
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;

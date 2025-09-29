@@ -11,7 +11,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>account-operation-service</module>
 		<module>account-scheduler-service</module>
 		<module>account-service</module>
 		<module>audit-service</module>
