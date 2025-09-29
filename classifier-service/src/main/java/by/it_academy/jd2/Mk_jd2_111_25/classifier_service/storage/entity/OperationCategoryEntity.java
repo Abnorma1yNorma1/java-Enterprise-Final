@@ -25,5 +25,6 @@ public class OperationCategoryEntity {
     private Instant dtCreate;
     @Column(name = "dt_update")
     private  Instant dtUpdate;
+    @Column(name = "title")
     private String title;
 }
