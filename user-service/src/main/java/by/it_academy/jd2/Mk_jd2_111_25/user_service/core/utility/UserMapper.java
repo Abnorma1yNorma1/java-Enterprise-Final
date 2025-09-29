@@ -6,6 +6,7 @@ import by.it_academy.jd2.Mk_jd2_111_25.user_service.core.dto.UserInfo;
 import by.it_academy.jd2.Mk_jd2_111_25.user_service.storage.entity.UserEntity;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public class UserMapper {
 
