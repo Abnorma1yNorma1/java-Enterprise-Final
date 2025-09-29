@@ -19,6 +19,7 @@ public class UserMapper {
                 .fio(dto.getFio())
                 .role(dto.getRole())
                 .status(dto.getStatus())
+                .password(dto.getPassword())
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class UserMapper {
                 .fio(dto.getFio())
                 .role(dto.getRole())
                 .status(dto.getStatus())
+                .password(dto.getPassword())
                 .build();
     }
 
