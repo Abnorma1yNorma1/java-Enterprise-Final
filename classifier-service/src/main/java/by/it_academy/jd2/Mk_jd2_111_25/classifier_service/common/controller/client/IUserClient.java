@@ -3,7 +3,8 @@ package by.it_academy.jd2.Mk_jd2_111_25.classifier_service.common.controller.cli
 import by.it_academy.jd2.Mk_jd2_111_25.classifier_service.core.dto.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
