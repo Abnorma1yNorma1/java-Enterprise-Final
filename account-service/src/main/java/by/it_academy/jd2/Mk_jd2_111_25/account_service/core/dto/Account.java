@@ -16,11 +16,11 @@ import java.util.UUID;
 public class Account {
 
     @NotNull
-    private final UUID uuid;
+    private UUID uuid;
     @NotNull
-    private final Instant dt_create;
+    private Instant dtCreate;
     @NotNull
-    private final Instant dt_update;
+    private Instant dtUpdate;
     private String title;
     private String description;
     private BigDecimal balance;

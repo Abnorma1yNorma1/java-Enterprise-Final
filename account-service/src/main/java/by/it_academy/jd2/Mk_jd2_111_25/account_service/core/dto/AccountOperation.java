@@ -14,11 +14,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountOperation {
     @NotNull
-    private final UUID uuid;
+    private UUID uuid;
     @NotNull
-    private final Instant dt_create;
+    private Instant dtCreate;
     @NotNull
-    private final Instant dt_update;
+    private Instant dtUpdate;
     private Instant date;
     private String description;
     private UUID category;
